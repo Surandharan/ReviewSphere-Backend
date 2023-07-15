@@ -4,7 +4,7 @@
   "description": "This is the project created for educational purpose",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "author": "Full Stack Suren",
   "license": "ISC",
@@ -24,5 +24,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
+  },
+  "engines" : {
+    "node" : "18.x",
+    "npm" : "9.x"
   }
 }
