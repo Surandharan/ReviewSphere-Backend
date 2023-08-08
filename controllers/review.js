@@ -3,6 +3,15 @@ const Movie = require("../models/movie");
 const Review = require("../models/review");
 const { sendError, getAverageRatings } = require("../utils/helper");
 
+
+// function that adds a new review - parametera are (movieid, content, rating, userId)
+// checks if the user is verified and the user has already given a review to the movie
+// create a review with passed values and save it in db
+// push review in the reviews array of the movie
+// getAverageRatings() returns the {averageRating, ratingCount} of the movie
+// return the review as response and a prompt
+
+
 exports.addReview = async (req, res) => {
   const { movieId } = req.params;
   const { content, rating } = req.body;
@@ -12,7 +21,6 @@ exports.addReview = async (req, res) => {
     return sendError(res, "Please verify you email first!");
 
   if (!isValidObjectId(movieId)) return sendError(res, "Invalid Movie!");
-
   const movie = await Movie.findOne({ _id: movieId, status: "public" });
   if (!movie) return sendError(res, "Movie not found!", 404);
 
@@ -21,7 +29,7 @@ exports.addReview = async (req, res) => {
     parentMovie: movie._id,
   });
   if (isAlreadyReviewed)
-    return sendError(res, "Invalid request, review is already their!");
+    return sendError(res, "Invalid request, review is already there!");
 
   // create and update review.
   const newReview = new Review({
@@ -42,6 +50,11 @@ exports.addReview = async (req, res) => {
 
   res.json({ message: "Your review has been added.", reviews });
 };
+
+// function to update review - parameters (reviewId, userId, content, rating)
+// check if the review is already present
+// pick the review and modify its content and rating and save it again
+// return a response
 
 exports.updateReview = async (req, res) => {
   const { reviewId } = req.params;
@@ -80,6 +93,7 @@ exports.removeReview = async (req, res) => {
   res.json({ message: "Review removed successfully." });
 };
 
+//
 exports.getReviewsByMovie = async (req, res) => {
   const { movieId } = req.params;
 

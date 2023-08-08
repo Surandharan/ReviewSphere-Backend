@@ -9,7 +9,7 @@ exports.isAuth = async (req, res, next) => {
   const jwtToken = token.split("Bearer ")[1];
 
   if (!jwtToken) return sendError(res, "Invalid token!");
-  const decode = jwt.verify(jwtToken, process.env.JWT_SECRET);
+  const decode = jwt.verify(jwtToken, "fjaksdkflKFAFkfajdsfh");
   const { userId } = decode;
 
   const user = await User.findById(userId);

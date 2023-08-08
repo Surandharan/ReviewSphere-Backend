@@ -21,7 +21,7 @@ exports.createActor = async (req, res) => {
   res.status(201).json({ actor: formatActor(newActor) });
 };
 
-// update
+// Update
 // Things to consider while updating.
 // No.1 - is image file is / avatar is also updating.
 // No.2 - if yes then remove old image before uploading new image / avatar.

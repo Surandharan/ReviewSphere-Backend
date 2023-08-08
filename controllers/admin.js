@@ -31,3 +31,4 @@ exports.getMostRated = async (req, res) => {
 
   res.json({ movies: topRatedMovies });
 };
+
