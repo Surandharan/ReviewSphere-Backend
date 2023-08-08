@@ -190,7 +190,7 @@ exports.forgetPassword = async (req, res) => {
   });
   await newPasswordResetToken.save();
 
-  const resetPasswordUrl = `http://localhost:3000/auth/reset-password?token=${token}&id=${user._id}`;
+  const resetPasswordUrl = `https://review-sphere-frontend-j9j1s668x-surandharan.vercel.app/auth/reset-password`;
 
   const transport = generateMailTransporter();
 
