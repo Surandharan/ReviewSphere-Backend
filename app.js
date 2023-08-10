@@ -1,4 +1,5 @@
 require("express-async-errors");
+const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const { errorHandler } = require("./middlewares/error");
@@ -15,6 +16,7 @@ const { handleNotFound } = require("./utils/helper");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
 app.use("/api/user", userRouter);
 app.use("/api/actor", actorRouter);
@@ -25,7 +27,7 @@ app.use("/*", handleNotFound);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log("Listening on port " + PORT);
 });
