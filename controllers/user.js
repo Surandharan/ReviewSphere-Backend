@@ -5,6 +5,7 @@ const { isValidObjectId } = require("mongoose");
 const { generateOTP, generateMailTransporter } = require("../utils/mail");
 const { sendError, generateRandomByte } = require("../utils/helper");
 const PasswordResetToken = require("../models/passwordResetToken");
+const nodemailer = require("nodemailer");
 
 // function for creating a user, gets user details as parameters
 // whenever new user tries to sign up, check if email is already in use
@@ -36,16 +37,39 @@ exports.create = async (req, res) => {
 
     // send that otp to our user
 
-    var transport = generateMailTransporter();
+    // var transport = generateMailTransporter();
 
-    transport.sendMail({
-      from: "verification@reviewapp.com",
+    // transport.sendMail({
+    //   from: "verification@reviewapp.com",
+    //   to: newUser.email,
+    //   subject: "Email Verification",
+    //   html: `
+    //   <p>You verification OTP</p>
+    //   <h1>${OTP}</h1>
+    // `,
+    // });
+    let mailTransporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "reviewsphere23@gmail.com",
+        pass: "woionhsnkrrnsjdi",
+      },
+    });
+
+    let details = {
+      from: "reviewsphere23@gmail.com",
       to: newUser.email,
-      subject: "Email Verification",
-      html: `
-      <p>You verification OTP</p>
-      <h1>${OTP}</h1>
-    `,
+      subject: "Hello from ReviewSphere",
+      text: `your otp ${OTP}`,
+    };
+
+    //make async
+    mailTransporter.sendMail(details, (error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent!");
+      }
     });
 
     res.status(201).json({
